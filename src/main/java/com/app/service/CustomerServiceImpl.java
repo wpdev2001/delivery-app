@@ -66,4 +66,10 @@ public class CustomerServiceImpl implements ICustomerService {
 		return dao.deleteCustomer(cid);
 	}
 
+	@Override
+	public Customer findByEmail(String email) {
+		return dao.findByEmail(email);
+	}
+
+
 }

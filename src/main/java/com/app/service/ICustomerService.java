@@ -16,5 +16,5 @@ public interface ICustomerService {
 	List<Orders> getMyOrders(); 
 	Customer updateCustomer(Customer c);
 	String deleteCustomer(int cid);
-
+	Customer findByEmail(String email);
 }

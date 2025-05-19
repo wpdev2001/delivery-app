@@ -38,6 +38,16 @@ public class CustomerDaoImpl implements ICustomerDao {
 	}
 
 	@Override
+	public Customer findByEmail(String email) {
+		String jpql = "select c from Customer c where c.cemail = :email";
+		return mgr.createQuery(jpql, Customer.class)
+				.setParameter("email", email)
+				.getSingleResult();  // or use getResultList() with checks to avoid exceptions
+	}
+
+
+
+	@Override
 	public List<String> placeOrderArea() {
 		 System.out.println("In Place Order area");
 		String jpql = "select d.area from DeliveryPartner d";

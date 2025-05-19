@@ -248,7 +248,69 @@ public class CustomerController {
 		response.setHeader("refresh", "5;url="+"http://localhost:8080/");
 		return "/customer/customerlogout";// forward view name : /WEB-INF/view/user/logout.jsp
 	}
-	
-	
+
+	@GetMapping("/forgotpassword")
+	public String showForgotPasswordForm() {
+		return "/customer/forgotpassword"; // JSP file
+	}
+
+	//forgot password
+	@PostMapping("/forgotpassword")
+	public String processForgotPassword(@RequestParam String email, HttpSession session, Model map) {
+		Customer customer = service.findByEmail(email);
+		if (customer != null) {
+			String otp = String.format("%04d", new Random().nextInt(10000));
+			session.setAttribute("otp", otp);
+			session.setAttribute("email", email);
+
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setFrom("courier.delivery.app@gmail.com");
+			message.setTo(email);
+			message.setSubject("Password Reset OTP");
+			message.setText("Your OTP to reset password is: " + otp);
+			sender.send(message);
+
+			return "/customer/enterpassotp"; // new JSP for OTP entry
+		}
+		map.addAttribute("error", "Email not found");
+		return "/customer/forgotpassword";
+	}
+
+	//verifyotp
+	@PostMapping("/verifyotp")
+	public String verifyOtp(@RequestParam String otp, HttpSession session, Model map) {
+		String sessionOtp = (String) session.getAttribute("otp");
+
+		if (sessionOtp != null && sessionOtp.equals(otp)) {
+			return "/customer/resetpassword";  // Show password reset form
+		} else {
+			map.addAttribute("error", "Invalid OTP. Please try again.");
+			return "/customer/enterpassotp";  // Back to OTP form
+		}
+	}
+
+
+	//reset password
+	@PostMapping("/resetpassword")
+	public String resetPassword(@RequestParam String newPassword, HttpSession session, Model map) {
+		String email = (String) session.getAttribute("email");
+		if (email == null) {
+			map.addAttribute("error", "Session expired. Please try again.");
+			return "/customer/forgotpassword";
+		}
+
+		Customer customer = service.findByEmail(email);
+		if (customer != null) {
+			customer.setCpassword(newPassword);  // You can hash it here if needed
+			service.updateCustomer(customer);    // Make sure this method exists
+			session.invalidate();
+			map.addAttribute("success", "Password reset successfully. Please login.");
+			return "/customer/customerlogin";
+		} else {
+			map.addAttribute("error", "No customer found with this email.");
+			return "/customer/forgotpassword";
+		}
+	}
+
 
 }

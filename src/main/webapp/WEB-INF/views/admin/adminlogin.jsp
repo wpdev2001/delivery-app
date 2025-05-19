@@ -42,6 +42,10 @@
                     <input class="form-control" id="pass" type="password" name="pass">
                     <span id="Password" class="text-danger font-weight-bold"></span>
                 </div>
+
+                <div class="form-group text-right">
+                    <a href="/admin/forgotpassword" class="text-info">Forgot Password?</a>
+                </div>
                 
                   
                 <div class="form-group"> 

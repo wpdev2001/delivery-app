@@ -147,25 +147,18 @@ body {
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Services <span class="sr-only">(current)</span></a>
-                </li>
-
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">About us <span class="sr-only">(current)</span></a>
-                </li>
-
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Contact <span class="sr-only">(current)</span></a>
-                </li>
-
-
-
-
+               <li class="nav-item active">
+                   <a class="nav-link" href="/home">Home</a>
+               </li>
+               <li class="nav-item active">
+                   <a class="nav-link" href="/services">Services</a>
+               </li>
+               <li class="nav-item active">
+                   <a class="nav-link" href="/about">About us</a>
+               </li>
+               <li class="nav-item active">
+                   <a class="nav-link" href="/contact">Contact</a>
+               </li>
             </ul>
             <!-- login -->
             <ul class="navbar-nav mr-5 px-4">
@@ -192,7 +185,7 @@ body {
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <p class="promo-title">Fastest Courier Service in Pune</p>
+                        <p class="promo-title">Fastest Courier Service</p>
                         <p>Low-priced same day delivery service!</p>
                     </div>
                 </div>

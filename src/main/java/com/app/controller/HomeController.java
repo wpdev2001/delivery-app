@@ -18,12 +18,27 @@ public class HomeController {
 	public String showHomePage() {
 		return "/index";
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	@GetMapping("/home")
+	public String showHomePage1() {
+		return "/index";
+	}
+
+	@GetMapping("/services")
+	public String showServicesPage() {
+		return "/services";
+	}
+
+	@GetMapping("/about")
+	public String showAboutPage() {
+		return "/aboutus";
+	}
+
+	@GetMapping("/contact")
+	public String showContactPage() {
+		return "/contact";
+	}
+
+
 
 }
