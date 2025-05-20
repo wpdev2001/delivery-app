@@ -20,6 +20,8 @@ import com.app.pojos.Customer;
 import com.app.pojos.DeliveryPartner;
 import com.app.service.IPartnerService;
 
+import java.util.Random;
+
 @Controller
 @RequestMapping("/delivery")
 public class DeliveryController {
@@ -190,6 +192,61 @@ public class DeliveryController {
 		response.setHeader("refresh", "5;url="+"http://localhost:8080/");
 		return "/delivery/deliverylogout";// forward view name : /WEB-INF/view/user/logout.jsp
 	}
-	
+
+	@GetMapping("/forgotpassword")
+	public String showForgotPasswordForm() {
+		return "/delivery/forgotpassword";  // JSP page
+	}
+
+	@PostMapping("/forgotpassword")
+	public String processForgotPassword(@RequestParam String email, HttpSession session, Model map) {
+		DeliveryPartner partner = service.findByEmail(email);
+		if (partner != null) {
+			String otp = String.format("%04d", new Random().nextInt(10000));
+			session.setAttribute("otp", otp);
+			session.setAttribute("email", email);
+
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setFrom("courier.delivery.app@gmail.com"); // must match spring.mail.username
+			message.setTo(email);
+			message.setSubject("Password Reset OTP");
+			message.setText("Your OTP for resetting password is: " + otp);
+			sender.send(message);
+
+			return "/delivery/enterotp";
+		} else {
+			map.addAttribute("error", "Email not found!");
+			return "/delivery/forgotpassword";
+		}
+	}
+
+	@PostMapping("/verifyotp")
+	public String verifyOtp(@RequestParam String otp, HttpSession session, Model map) {
+		String storedOtp = (String) session.getAttribute("otp");
+		if (storedOtp != null && storedOtp.equals(otp)) {
+			return "/delivery/resetpassword";
+		} else {
+			map.addAttribute("error", "Invalid OTP!");
+			return "/delivery/enterotp";
+		}
+	}
+
+	@PostMapping("/resetpassword")
+	public String resetPassword(@RequestParam String newPassword, HttpSession session, Model map) {
+		String email = (String) session.getAttribute("email");
+		DeliveryPartner partner = service.findByEmail(email);
+		if (partner != null) {
+			partner.setDpassword(newPassword);  // Set new password
+			service.updatePartner(partner);
+			session.invalidate();
+			map.addAttribute("success", "Password reset successfully. Please login.");
+			return "/delivery/deliverylogin";
+		} else {
+			map.addAttribute("error", "Something went wrong.");
+			return "/delivery/resetpassword";
+		}
+	}
+
+
 
 }

@@ -85,4 +85,19 @@ public class AdminDaoImpl implements IAdminDao {
 		
 		return "partner removing failed";
 	}
+
+	@Override
+	public Admin findByEmail(String email) {
+		String jpql = "select a from Admin a where a.aemail = :email";
+		List<Admin> result = mgr.createQuery(jpql, Admin.class)
+				.setParameter("email", email)
+				.getResultList();
+		return result.isEmpty() ? null : result.get(0);
+	}
+
+	@Override
+	public Admin updateAdmin(Admin admin) {
+		return mgr.merge(admin);
+	}
+
 }

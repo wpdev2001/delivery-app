@@ -102,8 +102,15 @@ public class PartnerDaoImpl implements IPartnerDao {
 		return mgr.merge(updatePartner);
 	
 	}
-	
-	
+
+	@Override
+	public DeliveryPartner findByEmail(String email) {
+		String jpql = "select d from DeliveryPartner d where d.demail = :email";
+		List<DeliveryPartner> result = mgr.createQuery(jpql, DeliveryPartner.class)
+				.setParameter("email", email)
+				.getResultList();
+		return result.isEmpty() ? null : result.get(0);
+	}
 	
 
 		

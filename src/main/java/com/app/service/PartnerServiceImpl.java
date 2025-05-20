@@ -83,6 +83,10 @@ public class PartnerServiceImpl implements IPartnerService {
 		return dao.updateEarning(id);
 	}
 
+	@Override
+	public DeliveryPartner findByEmail(String email) {
+		return dao.findByEmail(email);
+	}
 
 
 }

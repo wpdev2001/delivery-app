@@ -2,7 +2,7 @@
   <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-  
+
   <!doctype html>
 <html lang="en">
 
@@ -32,28 +32,28 @@
 
         </div>
     </nav>
-    
-    
-    <div class="col-lg-8 m-auto d-block"><br> 
+
+
+    <div class="col-lg-8 m-auto d-block"><br>
         	<div class="card-header bg-info">
-                <h1 class="text-white text-center">Customer Login</h1>   
+                <h1 class="text-white text-center">Delivery Partner Login</h1>
             </div>
 
-            <form method="post" action="/customer/verifyotp" class="bg-light">
-   
+            <form method="post" action="/delivery/forgotpassword" class="bg-light">
+
                 <div class="form-group">
-                    <label>Enter OTP:</label>
-                    <input  class="form-control" id="otp" type="text" name="otp" required/>
-                    <span id="otp1" class="text-danger font-weight-bold"></span>
+                    <label for="email">Enter your registered email</label>
+                    <input type="email" name="email" class="form-control" required />
+                    <span id="email1" class="text-danger font-weight-bold"></span>
                 </div>
 
-                <input class="btn btn-success" type="submit" name="submit" value="submit">
+                <button type="submit" class="btn btn-primary">Send OTP</button>
             </form>
      </div>
-   
 
-   
-    
+
+
+
 
     <!-- Optional JavaScript; choose one of the two! -->
 

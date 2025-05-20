@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +20,17 @@ import com.app.pojos.Admin;
 
 import com.app.service.IAdminService;
 
+import java.util.Random;
+
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 	@Autowired
 	private IAdminService service;
+
+	@Autowired
+	private JavaMailSender sender;
 	
 	public AdminController() {
 		// TODO Auto-generated constructor stub
@@ -113,7 +120,60 @@ public class AdminController {
 		response.setHeader("refresh", "5;url="+"http://localhost:8080/");
 		return "/admin/adminlogout";// forward view name : /WEB-INF/view/user/logout.jsp
 	}
-	
-	
+
+	@GetMapping("/forgotpassword")
+	public String showForgotPasswordForm() {
+		return "/admin/forgotpassword";  // JSP to enter email
+	}
+
+	@PostMapping("/forgotpassword")
+	public String processForgotPassword(@RequestParam String email, HttpSession session, Model map) {
+		Admin admin = service.findByEmail(email);
+		if (admin != null) {
+			String otp = String.format("%04d", new Random().nextInt(10000));
+			session.setAttribute("otp", otp);
+			session.setAttribute("email", email);
+
+			SimpleMailMessage message = new SimpleMailMessage();
+			message.setFrom("courier.delivery.app@gmail.com");
+			message.setTo(email);
+			message.setSubject("Admin Password Reset OTP");
+			message.setText("Your OTP for resetting your admin password is: " + otp);
+			sender.send(message);
+
+			return "/admin/enterotp";
+		} else {
+			map.addAttribute("error", "Email not found!");
+			return "/admin/forgotpassword";
+		}
+	}
+
+	@PostMapping("/verifyotp")
+	public String verifyOtp(@RequestParam String otp, HttpSession session, Model map) {
+		String sessionOtp = (String) session.getAttribute("otp");
+		if (sessionOtp != null && sessionOtp.equals(otp)) {
+			return "/admin/resetpassword";
+		} else {
+			map.addAttribute("error", "Invalid OTP!");
+			return "/admin/enterotp";
+		}
+	}
+
+	@PostMapping("/resetpassword")
+	public String resetPassword(@RequestParam String newPassword, HttpSession session, Model map) {
+		String email = (String) session.getAttribute("email");
+		Admin admin = service.findByEmail(email);
+		if (admin != null) {
+			admin.setApassword(newPassword);
+			service.updateAdmin(admin);
+			session.invalidate();
+			map.addAttribute("success", "Password reset successfully. Please login.");
+			return "/admin/adminlogin";
+		} else {
+			map.addAttribute("error", "Something went wrong.");
+			return "/admin/resetpassword";
+		}
+	}
+
 
 }

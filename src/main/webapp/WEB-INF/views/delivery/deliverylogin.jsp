@@ -53,7 +53,7 @@
                  </div>
 
                  <div class="form-group d-flex justify-content-between">
-                    <a href="/customer/forgotpassword" class="text-info">Forgot Password?</a>
+                    <a href="/delivery/forgotpassword" class="text-info">Forgot Password?</a>
                     <a href="<spring:url value='/delivery/reg'/>" class="text-info">Create New Account</a>
                  </div>
 				  

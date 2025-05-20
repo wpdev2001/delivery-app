@@ -17,4 +17,5 @@ public interface IPartnerDao {
 	String deletePartner(int did);
 	DeliveryPartner updatePartner(DeliveryPartner d);
 	DeliveryPartner updateEarning(int id);
+	DeliveryPartner findByEmail(String email);
 }

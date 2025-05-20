@@ -301,8 +301,8 @@ public class CustomerController {
 
 		Customer customer = service.findByEmail(email);
 		if (customer != null) {
-			customer.setCpassword(newPassword);  // You can hash it here if needed
-			service.updateCustomer(customer);    // Make sure this method exists
+			customer.setCpassword(newPassword);
+			service.updateCustomer(customer);
 			session.invalidate();
 			map.addAttribute("success", "Password reset successfully. Please login.");
 			return "/customer/customerlogin";

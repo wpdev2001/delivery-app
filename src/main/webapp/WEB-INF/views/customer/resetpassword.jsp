@@ -29,47 +29,9 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item ">
-                    <a class="nav-link active" href="/customer/customerprofile">Profile</a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="/customer/placeorders">Place Orders </a>
-                </li>
-
-                <li class="nav-item ">
-                    <a class="nav-link" href="/customer/myorders">My Orders </a>
-                </li>
-
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">Update Profile </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">Delete Account </a>
-                </li>
-
-
-
-
-            </ul>
-
-
-            <ul class="navbar-nav mr-right px-4">
-                <li class="nav-item">
-                    <a class="nav-link " href="#" > ${sessionScope.customer_details.getCemail()}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link "  href="/customer/logout">Log Out</a>
-                </li>
-
-            </ul>
 
         </div>
     </nav>
-
-
-
-    <!-- Enter OTP -->
 
 
     <div class="col-lg-8 m-auto d-block"><br>

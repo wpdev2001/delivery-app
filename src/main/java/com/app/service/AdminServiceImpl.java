@@ -55,4 +55,15 @@ public class AdminServiceImpl implements IAdminService {
 		return dao.deletePartner(did);
 	}
 
+	@Override
+	public Admin findByEmail(String email) {
+		return dao.findByEmail(email);
+	}
+
+	@Override
+	public Admin updateAdmin(Admin admin) {
+		return dao.updateAdmin(admin);
+	}
+
+
 }

@@ -14,6 +14,9 @@ public interface IAdminDao {
 	List<Orders>getAllOrders();
 	String deleteCustomer(int cid);
 	String deletePartner(int did);
+	Admin findByEmail(String email);
+	Admin updateAdmin(Admin admin);
+
 
 }
 
